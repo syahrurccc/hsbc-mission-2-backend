@@ -1,0 +1,158 @@
+openapi: 3.0.3
+info:
+  title: Movies API
+  version: 1.0.0
+  description: Simple CRUD API for movies
+
+servers:
+  - url: http://localhost:3000
+
+paths:
+  /movies:
+    get:
+      summary: Get all movies
+      tags:
+        - Movies
+      responses:
+        "200":
+          description: List of movies
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Movie"
+
+  /movie:
+    post:
+      summary: Create a movie
+      tags:
+        - Movies
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MovieInput"
+      responses:
+        "201":
+          description: Movie created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Movie"
+
+  /movies/{id}:
+    get:
+      summary: Get movie by ID
+      tags:
+        - Movies
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Movie found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Movie"
+        "404":
+          description: Movie not found
+
+    patch:
+      summary: Update a movie
+      tags:
+        - Movies
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MovieInput"
+      responses:
+        "200":
+          description: Movie updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Movie"
+        "404":
+          description: Movie not found
+
+    delete:
+      summary: Delete a movie
+      tags:
+        - Movies
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Movie deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Movie deleted
+        "404":
+          description: Movie not found
+
+components:
+  schemas:
+    Movie:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: Inception
+        poster_url:
+          type: string
+          example: https://example.com/inception.jpg
+        type:
+          type: string
+          example: movie
+        synopsis:
+          type: string
+          example: A thief who steals corporate secrets through dream-sharing technology.
+        year:
+          type: integer
+          example: 2010
+
+    MovieInput:
+      type: object
+      properties:
+        title:
+          type: string
+        poster_url:
+          type: string
+        type:
+          type: string
+        synopsis:
+          type: string
+        year:
+          type: integer
+      required:
+        - title
+        - poster_url
+        - type
+        - synopsis
+        - year
