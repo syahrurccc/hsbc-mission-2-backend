@@ -18,7 +18,9 @@ router.post("/", async (req, res) => {
     [title, poster_url, type, synopsis, year],
   );
 
-  res.status(201).json(rows[0]);
+  res
+    .status(201)
+    .json({ message: "Entry successfully created", entry: rows[0] });
 });
 
 router.get("/:id", async (req, res) => {
@@ -49,7 +51,9 @@ router.patch("/:id", async (req, res) => {
     [title, poster_url, type, synopsis, year, req.params.id],
   );
 
-  res.status(200).json(rows[0]);
+  res
+    .status(200)
+    .json({ message: "Entry successfully updated", entry: rows[0] });
 });
 
 router.delete("/:id", async (req, res) => {

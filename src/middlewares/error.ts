@@ -7,7 +7,6 @@ export function errorHandler(
   res: Response,
   _next: NextFunction,
 ) {
-  console.log(err.issues);
   if (err instanceof ZodError) {
     return res.status(400).json({
       error: "Validation failed",
